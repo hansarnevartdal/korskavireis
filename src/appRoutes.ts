@@ -14,11 +14,11 @@ export const appRoutes: AppRoute[] = [
     heroEyebrow: 'Oppstart',
     heroTitle: 'Velg reisende og fortsett eventyret',
     heroDescription:
-      'Bootstrappen legger på plass skall, navigasjon og sidehierarki for den første versjonen av Reisekart.',
+      'Velg en eksisterende reisende eller opprett en ny profil som lagres lokalt i nettleseren på denne enheten.',
     heroHighlights: [
-      'Arkitektur for nettleseren med Vite og React',
-      'Klar for lokale profiler og landdata i neste iterasjon',
-      'Felles sideoppsett som alle visninger kan bygge videre på',
+      'Aktiv reisende huskes mellom økter i nettleseren',
+      'Førstegangsbruk får tydelige tomtilstander og validering',
+      'Valgt profil er klar til å sendes videre til Mitt kart',
     ],
   },
   {
@@ -27,11 +27,11 @@ export const appRoutes: AppRoute[] = [
     heroEyebrow: 'Kartoversikt',
     heroTitle: 'Grunnflate for personlig reisekart',
     heroDescription:
-      'Denne siden viser hvordan statistikk, filtre og kartflate kan settes sammen i en senere implementasjon.',
+      'Den aktive reisende styrer nå hvilket navn og hvilke lagrede besøksdata som vises i kartoppsettet.',
     heroHighlights: [
-      'Kort for hovedtall og progresjon',
-      'Filtre som kan gjenbrukes på tvers av visninger',
-      'Plassholder for interaktivt verdenskart og landliste',
+      'Personlig kontekst følger med fra Reisende-siden',
+      'Statistikk er koblet til lagret profil i nettleseren',
+      'Kart- og landstyring kan bygges videre i neste issue',
     ],
   },
   {

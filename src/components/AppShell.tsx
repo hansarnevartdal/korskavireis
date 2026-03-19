@@ -1,9 +1,11 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import { appRoutes, getRouteMeta } from '../appRoutes'
+import { useTravelers } from '../features/travelers/TravelerContext'
 
 export function AppShell() {
   const location = useLocation()
   const routeMeta = getRouteMeta(location.pathname)
+  const { activeTraveler } = useTravelers()
 
   return (
     <div className="app-shell">
@@ -16,6 +18,18 @@ export function AppShell() {
                 <p className="brand-title">Landene du har besøkt</p>
                 <p className="brand-subtitle">Front-end-grunnlag for første versjon i nettleseren</p>
               </div>
+            </div>
+
+            <div className="shell-status-card" aria-live="polite">
+              <p className="card-label">Aktiv reisende</p>
+              <p className="shell-status-name">
+                {activeTraveler === null ? 'Ingen valgt ennå' : activeTraveler.displayName}
+              </p>
+              <p className="brand-subtitle">
+                {activeTraveler === null
+                  ? 'Opprett eller velg en profil på Reisende-siden for å fortsette.'
+                  : `${activeTraveler.visitedCountryCodes.length} lagrede land i denne profilen`}
+              </p>
             </div>
 
             <nav aria-label="Hovednavigasjon" className="top-nav">
