@@ -1,10 +1,10 @@
 const stats = [
-  { label: 'Besokte land', value: '47', detail: 'Mal for fremtidig beregning per profil' },
+  { label: 'Besøkte land', value: '47', detail: 'Mål for fremtidig beregning per profil' },
   { label: 'Verdensandel', value: '24%', detail: 'Kort som senere kobles mot landdatasett' },
   { label: 'Kontinenter', value: '5', detail: 'Filtrering og progresjon samles i samme oppsett' },
 ]
 
-const filters = ['Alle', 'Europa', 'Asia', 'Nord-Amerika', 'Sor-Amerika', 'Afrika', 'Oseania']
+const filters = ['Alle', 'Europa', 'Asia', 'Nord-Amerika', 'Sør-Amerika', 'Afrika', 'Oseania']
 
 const countries = [
   'Norge',
@@ -32,7 +32,7 @@ export function MyMapPage() {
         <div className="card-header">
           <div>
             <p className="eyebrow">Filtre</p>
-            <h2>Kontinentvalg, sok og listeplassholdere</h2>
+            <h2>Kontinentvalg, søk og listeplassholdere</h2>
           </div>
         </div>
 
@@ -75,9 +75,9 @@ export function MyMapPage() {
               <article key={country} className="list-row">
                 <div>
                   <p className="list-row-title">{country}</p>
-                  <p className="list-row-subtitle">Klargjort for status, sok og filtrering</p>
+                  <p className="list-row-subtitle">Klargjort for status, søk og filtrering</p>
                 </div>
-                <span className="pill">{index < 4 ? 'Besokt' : 'Planlagt'}</span>
+                <span className="pill">{index < 4 ? 'Besøkt' : 'Planlagt'}</span>
               </article>
             ))}
           </div>

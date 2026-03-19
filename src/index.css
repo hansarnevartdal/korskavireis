@@ -248,7 +248,6 @@ h2 {
 
 .highlight-list,
 .list-stack,
-.step-list,
 .page-stack {
   display: flex;
   flex-direction: column;
@@ -340,7 +339,24 @@ h2 {
 }
 
 .step-list {
-  list-style: decimal inside;
+  display: grid;
+  gap: 16px;
+  padding-left: 1.5rem;
+  list-style: decimal;
+}
+
+.step-list > li {
+  padding-left: 0.4rem;
+}
+
+.step-list > li::marker {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.step-list > li > .list-row {
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 .list-stack {
@@ -458,6 +474,8 @@ h2 {
 }
 
 .suggestion-card {
+  display: flex;
+  flex-direction: column;
   gap: 16px;
 }
 

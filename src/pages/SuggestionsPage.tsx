@@ -2,12 +2,12 @@ const suggestions = [
   {
     title: 'Baltisk langhelg',
     countries: ['Estland', 'Latvia', 'Litauen'],
-    reason: 'Dekker tre naboland pa en effektiv runde og passer for profiler som mangler nordlige byreiser.',
+    reason: 'Dekker tre naboland på en effektiv runde og passer for profiler som mangler nordlige byreiser.',
   },
   {
     title: 'Balkan-loop',
     countries: ['Kroatia', 'Bosnia-Hercegovina', 'Montenegro'],
-    reason: 'Bygger pa eksisterende Europadekning og gir hoy uttelling pa korte avstander.',
+    reason: 'Bygger på eksisterende Europadekning og gir høy uttelling på korte avstander.',
   },
   {
     title: 'Iberisk kombinasjon',
@@ -51,7 +51,7 @@ export function SuggestionsPage() {
             <p className="list-row-title">Kortene har plass til dekning, sesong og begrunnelse uten redesign.</p>
           </article>
           <article className="list-row">
-            <p className="list-row-title">Samme kortmal kan ogsa brukes for alternative reiseruter og favoritter.</p>
+            <p className="list-row-title">Samme kortmal kan også brukes for alternative reiseruter og favoritter.</p>
           </article>
         </div>
       </article>

@@ -13,8 +13,8 @@ export function AppShell() {
             <div className="brand-block">
               <span className="brand-badge">Reisekart</span>
               <div>
-                <p className="brand-title">Countries I Have Visited</p>
-                <p className="brand-subtitle">SPA foundation for the first browser-only release</p>
+                <p className="brand-title">Landene du har besøkt</p>
+                <p className="brand-subtitle">Front-end-grunnlag for første versjon i nettleseren</p>
               </div>
             </div>
 
