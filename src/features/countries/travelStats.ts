@@ -78,13 +78,15 @@ function getUniqueNormalizedCountryCodes(countryCodes: string[]): string[] {
 }
 
 function getCountryBuckets(countryCodes: string[]): {
+  normalizedCountryCodes: string[]
   visitedCountries: CountryMetadata[]
   unsupportedCountryCodes: string[]
 } {
+  const normalizedCountryCodes = getUniqueNormalizedCountryCodes(countryCodes)
   const visitedCountries: CountryMetadata[] = []
   const unsupportedCountryCodes: string[] = []
 
-  for (const normalizedCode of getUniqueNormalizedCountryCodes(countryCodes)) {
+  for (const normalizedCode of normalizedCountryCodes) {
     const country = countryMetadataByCode[normalizedCode]
 
     if (country === undefined) {
@@ -96,13 +98,16 @@ function getCountryBuckets(countryCodes: string[]): {
   }
 
   return {
+    normalizedCountryCodes,
     visitedCountries,
     unsupportedCountryCodes,
   }
 }
 
 export function getTravelerSummary(traveler: TravelerStatsInput): TravelerSummary {
-  const { visitedCountries, unsupportedCountryCodes } = getCountryBuckets(traveler.visitedCountryCodes)
+  const { normalizedCountryCodes, visitedCountries, unsupportedCountryCodes } = getCountryBuckets(
+    traveler.visitedCountryCodes,
+  )
   const continentCounts = new Map<ContinentCode, number>()
 
   for (const country of visitedCountries) {
@@ -125,7 +130,7 @@ export function getTravelerSummary(traveler: TravelerStatsInput): TravelerSummar
     id: traveler.id,
     displayName: traveler.displayName,
     visitedCountries,
-    visitedCountryCount: visitedCountries.length,
+    visitedCountryCount: normalizedCountryCodes.length,
     datasetCoveragePercentage: Math.round((visitedCountries.length / supportedCountryCount) * 100),
     unsupportedCountryCodes,
     visitedContinentCount: continentBreakdown.filter((entry) => entry.visitedCount > 0).length,
