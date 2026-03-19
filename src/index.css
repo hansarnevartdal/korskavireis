@@ -326,6 +326,56 @@ h2 {
   background: var(--accent-gradient);
 }
 
+.world-map {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.world-map-svg {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.world-map-region {
+  stroke: rgba(44, 22, 63, 0.22);
+  stroke-width: 4;
+  transition:
+    fill 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.world-map-region-active {
+  fill: rgba(143, 79, 255, 0.78);
+}
+
+.world-map-region-muted {
+  fill: rgba(44, 22, 63, 0.12);
+}
+
+.world-map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.world-map-legend-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  background: rgba(44, 22, 63, 0.08);
+}
+
+.world-map-legend-item-active {
+  color: var(--text-contrast);
+  background: var(--surface-contrast);
+}
+
 .pill-list {
   display: flex;
   flex-wrap: wrap;

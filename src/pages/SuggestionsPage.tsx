@@ -1,22 +1,9 @@
-const suggestions = [
-  {
-    title: 'Baltisk langhelg',
-    countries: ['Estland', 'Latvia', 'Litauen'],
-    reason: 'Dekker tre naboland på en effektiv runde og passer for profiler som mangler nordlige byreiser.',
-  },
-  {
-    title: 'Balkan-loop',
-    countries: ['Kroatia', 'Bosnia-Hercegovina', 'Montenegro'],
-    reason: 'Bygger på eksisterende Europadekning og gir høy uttelling på korte avstander.',
-  },
-  {
-    title: 'Iberisk kombinasjon',
-    countries: ['Spania', 'Portugal', 'Andorra'],
-    reason: 'Samler flere land i samme region og gir god variasjon mellom storby og natur.',
-  },
-]
+import { featuredTraveler } from '../features/countries/demoTravelers'
+import { buildVacationSuggestions } from '../features/countries/travelStats'
 
 export function SuggestionsPage() {
+  const suggestions = buildVacationSuggestions(featuredTraveler)
+
   return (
     <section className="page-stack">
       <div className="page-grid page-grid-three">
@@ -25,8 +12,8 @@ export function SuggestionsPage() {
             <p className="card-label">{suggestion.title}</p>
             <div className="pill-list">
               {suggestion.countries.map((country) => (
-                <span key={country} className="pill">
-                  {country}
+                <span key={country.code} className="pill">
+                  {country.name}
                 </span>
               ))}
             </div>
@@ -36,25 +23,31 @@ export function SuggestionsPage() {
       </div>
 
       <article className="card">
-        <div className="card-header">
-          <div>
-            <p className="eyebrow">Regelbasert motor</p>
-            <h2>Designet for forklarbare anbefalinger</h2>
+          <div className="card-header">
+            <div>
+              <p className="eyebrow">Regelbasert motor</p>
+              <h2>Forslagene forklares nå med samme metadata som filtrene bruker</h2>
+            </div>
           </div>
-        </div>
 
-        <div className="list-stack">
-          <article className="list-row">
-            <p className="list-row-title">Forslagene kan senere forklares med region, avstand og manglende land.</p>
-          </article>
-          <article className="list-row">
-            <p className="list-row-title">Kortene har plass til dekning, sesong og begrunnelse uten redesign.</p>
-          </article>
-          <article className="list-row">
-            <p className="list-row-title">Samme kortmal kan også brukes for alternative reiseruter og favoritter.</p>
-          </article>
-        </div>
-      </article>
+          <div className="list-stack">
+            <article className="list-row">
+              <p className="list-row-title">
+                Forslagene bruker subregioner og kontinentdekning fra det delte metadataregisteret.
+              </p>
+            </article>
+            <article className="list-row">
+              <p className="list-row-title">
+                Begrunnelsene leser besøkt-andeler fra samme helper som Highscore og Mitt kart.
+              </p>
+            </article>
+            <article className="list-row">
+              <p className="list-row-title">
+                Samme kortmal kan gjenbrukes for alternative ruter når flere regler legges til senere.
+              </p>
+            </article>
+          </div>
+        </article>
     </section>
   )
 }

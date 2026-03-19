@@ -1,21 +1,28 @@
-const stats = [
-  { label: 'Besøkte land', value: '47', detail: 'Mål for fremtidig beregning per profil' },
-  { label: 'Verdensandel', value: '24%', detail: 'Kort som senere kobles mot landdatasett' },
-  { label: 'Kontinenter', value: '5', detail: 'Filtrering og progresjon samles i samme oppsett' },
-]
-
-const filters = ['Alle', 'Europa', 'Asia', 'Nord-Amerika', 'Sør-Amerika', 'Afrika', 'Oseania']
-
-const countries = [
-  'Norge',
-  'Sverige',
-  'Danmark',
-  'Tyskland',
-  'Italia',
-  'Japan',
-]
+import { WorldMapIllustration } from '../components/WorldMapIllustration'
+import { continentFilterOptions } from '../features/countries/countryData'
+import { featuredTraveler } from '../features/countries/demoTravelers'
+import { getTravelerSummary } from '../features/countries/travelStats'
 
 export function MyMapPage() {
+  const travelerSummary = getTravelerSummary(featuredTraveler)
+  const stats = [
+    {
+      label: 'Besøkte land',
+      value: `${travelerSummary.visitedCountryCount}`,
+      detail: 'Beregnet fra visitedCountryCodes i den delte datamodellen',
+    },
+    {
+      label: 'Verdensandel',
+      value: `${travelerSummary.worldPercentage}%`,
+      detail: 'Bruker samme verdensgrunnlag som Highscore og Utforsk',
+    },
+    {
+      label: 'Kontinenter',
+      value: `${travelerSummary.visitedContinentCount}`,
+      detail: 'Bygger på samme kontinentgruppering som filter og forslag',
+    },
+  ]
+
   return (
     <section className="page-stack">
       <div className="stat-grid">
@@ -32,12 +39,12 @@ export function MyMapPage() {
         <div className="card-header">
           <div>
             <p className="eyebrow">Filtre</p>
-            <h2>Kontinentvalg, søk og listeplassholdere</h2>
+            <h2>Kontinentvalg kommer fra det delte metadataregisteret</h2>
           </div>
         </div>
 
         <div className="pill-list">
-          {filters.map((filter) => (
+          {continentFilterOptions.map((filter) => (
             <span key={filter} className="pill">
               {filter}
             </span>
@@ -50,15 +57,17 @@ export function MyMapPage() {
           <div className="card-header">
             <div>
               <p className="eyebrow">Kartflate</p>
-              <h2>Verdenskartet kan integreres i denne hovedflaten</h2>
+              <h2>Verdenskartet bruker et lokalt asset som kan gjenbrukes senere</h2>
             </div>
-            <span className="metric-chip">Interaktiv senere</span>
+            <span className="metric-chip">{featuredTraveler.displayName}</span>
           </div>
 
-          <div className="map-preview" aria-hidden="true">
-            <span className="map-shape map-shape-wide"></span>
-            <span className="map-shape map-shape-medium"></span>
-            <span className="map-shape map-shape-small"></span>
+          <div className="map-preview">
+            <WorldMapIllustration
+              activeContinents={travelerSummary.continentBreakdown
+                .filter((continent) => continent.visitedCount > 0)
+                .map((continent) => continent.continent)}
+            />
           </div>
         </article>
 
@@ -66,18 +75,20 @@ export function MyMapPage() {
           <div className="card-header">
             <div>
               <p className="eyebrow">Landliste</p>
-              <h2>Land kan senere hukes av fra kart eller liste</h2>
+              <h2>Landlisten bruker samme navne- og regionsdata som resten av appen</h2>
             </div>
           </div>
 
           <div className="list-stack">
-            {countries.map((country, index) => (
-              <article key={country} className="list-row">
+            {travelerSummary.visitedCountries.slice(0, 8).map((country) => (
+              <article key={country.code} className="list-row">
                 <div>
-                  <p className="list-row-title">{country}</p>
-                  <p className="list-row-subtitle">Klargjort for status, søk og filtrering</p>
+                  <p className="list-row-title">{country.name}</p>
+                  <p className="list-row-subtitle">
+                    {country.subregion} · {country.code}
+                  </p>
                 </div>
-                <span className="pill">{index < 4 ? 'Besøkt' : 'Planlagt'}</span>
+                <span className="pill">Besøkt</span>
               </article>
             ))}
           </div>

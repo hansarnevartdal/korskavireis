@@ -1,16 +1,29 @@
-const travelers = [
-  { name: 'Hansa', countries: 47, focus: 'Europa og Norden', status: 'Aktiv profil' },
-  { name: 'Marius', countries: 28, focus: 'Storbyhelger og langhelger', status: 'Sammenlignbar profil' },
-  { name: 'Lea', countries: 19, focus: 'Asia og kystreiser', status: 'Klar for neste ferie' },
-]
+import { demoTravelers } from '../features/countries/demoTravelers'
+import { getTravelerSummary } from '../features/countries/travelStats'
 
 const launchSteps = [
   'Velg en eksisterende profil eller opprett en ny direkte i nettleseren.',
-  'Fortsett inn til Mitt kart uten backend eller innloggingstjeneste.',
-  'La senere iterasjoner fylle på med landdata, sammenligning og forslag.',
+  'Alle eksempelprofiler henter nå landdata og statistikk fra ett delt datalag.',
+  'Senere iterasjoner kan bruke samme visitedCountryCodes-format uten å duplisere logikk.',
 ]
 
+const travelerStatuses = ['Aktiv profil', 'Sammenlignbar profil', 'Klar for neste ferie']
+
 export function TravelerSelectionPage() {
+  const travelers = demoTravelers.slice(0, 3).map((traveler, index) => {
+    const summary = getTravelerSummary(traveler)
+
+    return {
+      name: traveler.displayName,
+      countries: summary.visitedCountryCount,
+      focus:
+        summary.leadingContinent === null
+          ? 'Klar for å fylle på med landdata'
+          : `Sterkest dekning i ${summary.leadingContinent.label}`,
+      status: travelerStatuses[index] ?? 'Reiseklar profil',
+    }
+  })
+
   return (
     <section className="page-stack">
       <div className="page-grid page-grid-two">
@@ -24,8 +37,8 @@ export function TravelerSelectionPage() {
           </div>
 
           <p className="section-copy">
-            Forsiden etablerer plass til hurtigvalg, aktive profiler og tydelige neste steg. Denne
-            iterasjonen fokuserer på struktur, ikke ferdig funksjonalitet.
+            Forsiden viser nå eksempelprofiler som trekker besøkte land og dekning fra den samme
+            delte datamodellen som brukes på resten av sidene.
           </p>
 
           <ol className="step-list">
@@ -43,7 +56,7 @@ export function TravelerSelectionPage() {
           <div className="card-header">
             <div>
               <p className="eyebrow">Profiler</p>
-              <h2>Eksempel på reisende som senere kan lagres lokalt</h2>
+              <h2>Eksempel på reisende basert på den delte landdatamodellen</h2>
             </div>
             <span className="pill">3 profiler</span>
           </div>
