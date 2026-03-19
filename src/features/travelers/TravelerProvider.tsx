@@ -7,76 +7,79 @@ import {
   type PersistedTravelerState,
 } from './travelerStore'
 
+type TravelerProviderState = {
+  travelerState: PersistedTravelerState
+  storageNotice: string | null
+}
+
 export function TravelerProvider({ children }: PropsWithChildren) {
-  const [travelerState, setTravelerState] = useState<PersistedTravelerState>(() => {
-    const { state: persistedState, errorMessage } = loadTravelerState()
-    if (errorMessage !== null) {
-      return persistedState
+  const [providerState, setProviderState] = useState<TravelerProviderState>(() => {
+    const initialLoadResult = loadTravelerState()
+
+    return {
+      travelerState: initialLoadResult.state,
+      storageNotice: initialLoadResult.errorMessage,
     }
-
-    return persistedState
-  })
-  const [storageNotice, setStorageNotice] = useState<string | null>(() => {
-    const { errorMessage } = loadTravelerState()
-
-    return errorMessage
   })
 
   const activeTraveler = useMemo(
-    () => travelerState.travelers.find((traveler) => traveler.id === travelerState.activeTravelerId) ?? null,
-    [travelerState.activeTravelerId, travelerState.travelers],
+    () =>
+      providerState.travelerState.travelers.find(
+        (traveler) => traveler.id === providerState.travelerState.activeTravelerId,
+      ) ?? null,
+    [providerState.travelerState.activeTravelerId, providerState.travelerState.travelers],
   )
 
   const contextValue = useMemo<TravelerContextValue>(
     () => ({
-      travelers: travelerState.travelers,
+      travelers: providerState.travelerState.travelers,
       activeTraveler,
-      storageNotice,
+      storageNotice: providerState.storageNotice,
       createTraveler: (displayName: string) => {
         const nextTraveler = createTravelerProfile(displayName)
         const nextState = {
-          travelers: [nextTraveler, ...travelerState.travelers],
+          travelers: [nextTraveler, ...providerState.travelerState.travelers],
           activeTravelerId: nextTraveler.id,
         }
         const errorMessage = saveTravelerState(nextState)
 
-        setTravelerState(nextState)
-
-        if (errorMessage !== null) {
-          setStorageNotice(errorMessage)
-        } else {
-          setStorageNotice(null)
-        }
+        setProviderState({
+          travelerState: nextState,
+          storageNotice: errorMessage,
+        })
 
         return nextTraveler
       },
       selectTraveler: (travelerId: string) => {
-        const travelerExists = travelerState.travelers.some((traveler) => traveler.id === travelerId)
+        const travelerExists = providerState.travelerState.travelers.some((traveler) => traveler.id === travelerId)
 
         if (!travelerExists) {
-          setStorageNotice('Den valgte reisende finnes ikke lenger. Velg en annen profil fra listen.')
+          setProviderState((currentState) => ({
+            ...currentState,
+            storageNotice: 'Den valgte reisende finnes ikke lenger. Velg en annen profil fra listen.',
+          }))
           return
         }
 
         const nextState = {
-          ...travelerState,
+          ...providerState.travelerState,
           activeTravelerId: travelerId,
         }
         const errorMessage = saveTravelerState(nextState)
 
-        setTravelerState(nextState)
-
-        if (errorMessage !== null) {
-          setStorageNotice(errorMessage)
-        } else {
-          setStorageNotice(null)
-        }
+        setProviderState({
+          travelerState: nextState,
+          storageNotice: errorMessage,
+        })
       },
       clearStorageNotice: () => {
-        setStorageNotice(null)
+        setProviderState((currentState) => ({
+          ...currentState,
+          storageNotice: null,
+        }))
       },
     }),
-    [activeTraveler, storageNotice, travelerState],
+    [activeTraveler, providerState],
   )
 
   return <TravelerContext.Provider value={contextValue}>{children}</TravelerContext.Provider>

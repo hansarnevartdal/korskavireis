@@ -13,6 +13,16 @@ const updatedAtFormatter = new Intl.DateTimeFormat('nb-NO', {
   dateStyle: 'medium',
 })
 
+function formatUpdatedAt(updatedAt: string) {
+  const parsedTimestamp = Date.parse(updatedAt)
+
+  if (Number.isNaN(parsedTimestamp)) {
+    return 'ukjent dato'
+  }
+
+  return updatedAtFormatter.format(new Date(parsedTimestamp))
+}
+
 function validateTravelerName(displayName: string, travelers: TravelerProfile[]) {
   const trimmedName = displayName.trim()
 
@@ -167,7 +177,7 @@ export function TravelerSelectionPage() {
                     <div>
                       <p className="list-row-title">{traveler.displayName}</p>
                       <p className="list-row-subtitle">
-                        Oppdatert {updatedAtFormatter.format(new Date(traveler.updatedAt))} ·{' '}
+                        Oppdatert {formatUpdatedAt(traveler.updatedAt)} ·{' '}
                         {traveler.visitedCountryCodes.length === 0
                           ? 'Ingen lagrede land ennå'
                           : `${traveler.visitedCountryCodes.length} lagrede land`}

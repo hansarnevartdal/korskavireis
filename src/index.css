@@ -365,9 +365,13 @@ h2 {
     color 0.2s ease;
 }
 
-.button:hover,
+.button:hover {
+  transform: translateY(-1px);
+}
+
 .button:focus-visible {
   transform: translateY(-1px);
+  box-shadow: 0 0 0 4px rgba(143, 79, 255, 0.22);
   outline: none;
 }
 

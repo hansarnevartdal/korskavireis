@@ -27,6 +27,10 @@ function isStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((entry) => typeof entry === 'string')
 }
 
+function isValidDateString(value: unknown): value is string {
+  return typeof value === 'string' && !Number.isNaN(Date.parse(value))
+}
+
 function isTravelerProfile(value: unknown): value is TravelerProfile {
   if (typeof value !== 'object' || value === null) {
     return false
@@ -38,8 +42,8 @@ function isTravelerProfile(value: unknown): value is TravelerProfile {
     typeof candidate.id === 'string' &&
     typeof candidate.displayName === 'string' &&
     isStringArray(candidate.visitedCountryCodes) &&
-    typeof candidate.createdAt === 'string' &&
-    typeof candidate.updatedAt === 'string'
+    isValidDateString(candidate.createdAt) &&
+    isValidDateString(candidate.updatedAt)
   )
 }
 
@@ -82,6 +86,8 @@ export function loadTravelerState(): TravelerStateLoadResult {
   try {
     parsedState = JSON.parse(rawState)
   } catch {
+    window.localStorage.removeItem(STORAGE_KEY)
+
     return {
       state: emptyTravelerState,
       errorMessage:
@@ -90,6 +96,8 @@ export function loadTravelerState(): TravelerStateLoadResult {
   }
 
   if (!isPersistedTravelerState(parsedState)) {
+    window.localStorage.removeItem(STORAGE_KEY)
+
     return {
       state: emptyTravelerState,
       errorMessage:
