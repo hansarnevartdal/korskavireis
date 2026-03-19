@@ -8,6 +8,8 @@ import {
   type CountryMetadata,
 } from './countryData'
 
+const displayNameCollator = new Intl.Collator('nb-NO', { sensitivity: 'base' })
+
 export type TravelerStatsInput = {
   id: string
   displayName: string
@@ -64,7 +66,11 @@ function getUniqueNormalizedCountryCodes(countryCodes: string[]): string[] {
   const seenCodes = new Set<string>()
 
   for (const countryCode of countryCodes) {
-    const normalizedCode = countryCode.toUpperCase()
+    const normalizedCode = countryCode.trim().toUpperCase()
+
+    if (normalizedCode === '') {
+      continue
+    }
 
     if (seenCodes.has(normalizedCode)) {
       continue
@@ -145,8 +151,8 @@ export function rankTravelers(travelers: TravelerStatsInput[]): LeaderboardRow[]
     .sort(
       (left, right) =>
         right.visitedCountryCount - left.visitedCountryCount ||
-        right.datasetCoveragePercentage - left.datasetCoveragePercentage ||
-        left.displayName.localeCompare(right.displayName, 'nb-NO'),
+        displayNameCollator.compare(left.displayName, right.displayName) ||
+        left.id.localeCompare(right.id),
     )
     .map((traveler, index) => ({
       ...traveler,
