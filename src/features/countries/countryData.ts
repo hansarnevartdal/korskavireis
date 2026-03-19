@@ -13,8 +13,6 @@ export type CountryMetadata = {
   subregion: string
 }
 
-export const totalWorldCountryCount = 195
-
 export const continentOrder: ContinentCode[] = [
   'europe',
   'asia',
@@ -108,6 +106,8 @@ export const countryMetadata: CountryMetadata[] = [
   defineCountry('PF', 'Fransk Polynesia', 'oceania', 'Stillehavet'),
   defineCountry('WS', 'Samoa', 'oceania', 'Stillehavet'),
 ]
+
+export const supportedCountryCount = countryMetadata.length
 
 export const countryMetadataByCode = Object.fromEntries(
   countryMetadata.map((country) => [country.code, country]),

@@ -12,9 +12,9 @@ export function MyMapPage() {
       detail: 'Beregnet fra visitedCountryCodes i den delte datamodellen',
     },
     {
-      label: 'Verdensandel',
-      value: `${travelerSummary.worldPercentage}%`,
-      detail: 'Bruker samme verdensgrunnlag som Highscore og Utforsk',
+      label: 'Datadekning',
+      value: `${travelerSummary.datasetCoveragePercentage}%`,
+      detail: 'Bruker samme datasettreferanse som Highscore og Utforsk',
     },
     {
       label: 'Kontinenter',

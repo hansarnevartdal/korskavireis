@@ -36,13 +36,13 @@ export function HighscorePage() {
 
           <div className="list-stack">
             {ranking.map((entry) => (
-              <article key={entry.displayName} className="list-row">
+              <article key={entry.id} className="list-row">
                 <div>
                   <p className="list-row-title">
                     #{entry.rank} {entry.displayName}
                   </p>
                   <p className="list-row-subtitle">
-                    {entry.worldPercentage}% av verden · {entry.visitedContinentCount} kontinenter
+                    {entry.datasetCoveragePercentage}% av datasettet · {entry.visitedContinentCount} kontinenter
                   </p>
                 </div>
                 <span className="pill">{entry.visitedCountryCount} land</span>

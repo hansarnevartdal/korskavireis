@@ -3,12 +3,13 @@ import {
   continentOrder,
   countryMetadata,
   countryMetadataByCode,
-  totalWorldCountryCount,
+  supportedCountryCount,
   type ContinentCode,
   type CountryMetadata,
 } from './countryData'
 
 export type TravelerStatsInput = {
+  id: string
   displayName: string
   visitedCountryCodes: string[]
 }
@@ -21,10 +22,12 @@ export type ContinentBreakdown = {
 }
 
 export type TravelerSummary = {
+  id: string
   displayName: string
   visitedCountries: CountryMetadata[]
   visitedCountryCount: number
-  worldPercentage: number
+  datasetCoveragePercentage: number
+  unsupportedCountryCodes: string[]
   visitedContinentCount: number
   continentBreakdown: ContinentBreakdown[]
   leadingContinent: ContinentBreakdown | null
@@ -56,8 +59,8 @@ const continentCountryTotals = Object.fromEntries(
   ]),
 ) as Record<ContinentCode, number>
 
-function getUniqueKnownCountries(countryCodes: string[]): CountryMetadata[] {
-  const visitedCountries: CountryMetadata[] = []
+function getUniqueNormalizedCountryCodes(countryCodes: string[]): string[] {
+  const normalizedCodes: string[] = []
   const seenCodes = new Set<string>()
 
   for (const countryCode of countryCodes) {
@@ -67,21 +70,39 @@ function getUniqueKnownCountries(countryCodes: string[]): CountryMetadata[] {
       continue
     }
 
+    seenCodes.add(normalizedCode)
+    normalizedCodes.push(normalizedCode)
+  }
+
+  return normalizedCodes
+}
+
+function getCountryBuckets(countryCodes: string[]): {
+  visitedCountries: CountryMetadata[]
+  unsupportedCountryCodes: string[]
+} {
+  const visitedCountries: CountryMetadata[] = []
+  const unsupportedCountryCodes: string[] = []
+
+  for (const normalizedCode of getUniqueNormalizedCountryCodes(countryCodes)) {
     const country = countryMetadataByCode[normalizedCode]
 
     if (country === undefined) {
+      unsupportedCountryCodes.push(normalizedCode)
       continue
     }
 
-    seenCodes.add(normalizedCode)
     visitedCountries.push(country)
   }
 
-  return visitedCountries
+  return {
+    visitedCountries,
+    unsupportedCountryCodes,
+  }
 }
 
 export function getTravelerSummary(traveler: TravelerStatsInput): TravelerSummary {
-  const visitedCountries = getUniqueKnownCountries(traveler.visitedCountryCodes)
+  const { visitedCountries, unsupportedCountryCodes } = getCountryBuckets(traveler.visitedCountryCodes)
   const continentCounts = new Map<ContinentCode, number>()
 
   for (const country of visitedCountries) {
@@ -101,10 +122,12 @@ export function getTravelerSummary(traveler: TravelerStatsInput): TravelerSummar
       .find((entry) => entry.visitedCount > 0) ?? null
 
   return {
+    id: traveler.id,
     displayName: traveler.displayName,
     visitedCountries,
     visitedCountryCount: visitedCountries.length,
-    worldPercentage: Math.round((visitedCountries.length / totalWorldCountryCount) * 100),
+    datasetCoveragePercentage: Math.round((visitedCountries.length / supportedCountryCount) * 100),
+    unsupportedCountryCodes,
     visitedContinentCount: continentBreakdown.filter((entry) => entry.visitedCount > 0).length,
     continentBreakdown,
     leadingContinent,
@@ -117,7 +140,7 @@ export function rankTravelers(travelers: TravelerStatsInput[]): LeaderboardRow[]
     .sort(
       (left, right) =>
         right.visitedCountryCount - left.visitedCountryCount ||
-        right.worldPercentage - left.worldPercentage ||
+        right.datasetCoveragePercentage - left.datasetCoveragePercentage ||
         left.displayName.localeCompare(right.displayName, 'nb-NO'),
     )
     .map((traveler, index) => ({
@@ -157,8 +180,14 @@ export function buildVacationSuggestions(
 
   for (const country of unvisitedCountries) {
     const key = `${country.continent}:${country.subregion}`
-    const existingGroup = countriesBySubregion.get(key) ?? []
-    countriesBySubregion.set(key, [...existingGroup, country])
+    const existingGroup = countriesBySubregion.get(key)
+
+    if (existingGroup === undefined) {
+      countriesBySubregion.set(key, [country])
+      continue
+    }
+
+    existingGroup.push(country)
   }
 
   return [...countriesBySubregion.entries()]

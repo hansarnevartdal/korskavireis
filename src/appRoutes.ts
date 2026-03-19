@@ -56,7 +56,7 @@ export const appRoutes: AppRoute[] = [
       'Highscore-siden er koblet til delte leaderboard-beregninger, slik at rangeringen kan gjenbrukes uten duplisert logikk.',
     heroHighlights: [
       'Podium og liste bruker samme rangeringsgrunnlag',
-      'Verdensandel beregnes i én delt helper',
+      'Dekning i datasettet beregnes i én delt helper',
       'Klar for senere profiler uten manuell oppdatering av siden',
     ],
   },

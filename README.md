@@ -30,8 +30,16 @@ The development server uses Vite. Open the local URL printed in the terminal to 
 ## Shared country data source
 
 The repository now keeps its country metadata in `src/features/countries/countryData.ts`.
-That module is the in-repo source of truth for ISO alpha-2 country codes, Norwegian display names,
-continent grouping, and subregion metadata used by filtering and suggestion helpers.
+That module is the in-repo source of truth for the current shared dataset: a curated subset of
+ISO 3166-1 alpha-2 country codes with Norwegian display names, continent grouping, and subregion
+metadata used by filtering and suggestion helpers.
 
-The reusable selectors live in `src/features/countries/travelStats.ts`, while the local map asset
-used by the current placeholder views is the SVG geometry in `src/components/WorldMapIllustration.tsx`.
+Source and attribution notes:
+
+- Country identifiers follow the ISO 3166-1 alpha-2 standard. The current list is curated in-repo
+  for the prototype rather than imported as a complete third-party snapshot, so coverage-oriented
+  UI should describe percentages as coverage of the shared dataset instead of the full world.
+- The reusable selectors live in `src/features/countries/travelStats.ts`.
+- The local map asset in `src/components/WorldMapIllustration.tsx` is a simplified in-repo SVG
+  placeholder authored for this prototype rather than a bundled external geography dataset, so
+  there is currently no separate third-party map license file to redistribute.

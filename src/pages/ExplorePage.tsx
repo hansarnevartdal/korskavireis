@@ -8,9 +8,10 @@ export function ExplorePage() {
     const summary = getTravelerSummary(traveler)
 
     return {
+      id: traveler.id,
       traveler: traveler.displayName,
       countries: summary.visitedCountryCount,
-      coverage: `${summary.worldPercentage}% av verden`,
+      coverage: `${summary.datasetCoveragePercentage}% av datasettet`,
       note:
         summary.leadingContinent === null
           ? 'Klar for første registrerte land'
@@ -24,7 +25,7 @@ export function ExplorePage() {
     <section className="page-stack">
       <div className="page-grid page-grid-three">
         {comparisonCards.map((card) => (
-            <article key={card.traveler} className="card">
+            <article key={card.id} className="card">
               <p className="card-label">{card.traveler}</p>
               <p className="stat-value">{card.countries}</p>
               <p className="card-note">{card.coverage}</p>
