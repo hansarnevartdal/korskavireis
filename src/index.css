@@ -699,6 +699,23 @@ h2 {
     var(--card-gradient);
 }
 
+.podium-card-place-1 {
+  border-color: rgba(143, 79, 255, 0.28);
+  box-shadow: 0 22px 44px rgba(143, 79, 255, 0.14);
+}
+
+.podium-card-place-2,
+.podium-card-place-3,
+.podium-card-empty {
+  border-color: rgba(117, 79, 166, 0.16);
+}
+
+.podium-card-active,
+.highscore-row-active {
+  border-color: rgba(143, 79, 255, 0.28);
+  background: rgba(143, 79, 255, 0.1);
+}
+
 .podium-rank {
   display: inline-flex;
   padding: 8px 12px;
@@ -711,6 +728,31 @@ h2 {
   margin-top: 18px;
   font-size: 1.1rem;
   font-weight: 700;
+}
+
+.highscore-row {
+  align-items: stretch;
+}
+
+.highscore-row-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.highscore-progress {
+  overflow: hidden;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(117, 79, 166, 0.12);
+}
+
+.highscore-progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent-gradient);
 }
 
 .suggestion-card {

@@ -51,13 +51,13 @@ export const appRoutes: AppRoute[] = [
     path: '/highscore',
     navLabel: 'Highscore',
     heroEyebrow: 'Rangering',
-    heroTitle: 'Podium og rangering i samme oppsett',
+    heroTitle: 'Se hvem som leder reisen akkurat nå',
     heroDescription:
-      'Highscore-siden er koblet til delte leaderboard-beregninger, slik at rangeringen kan gjenbrukes uten duplisert logikk.',
+      'Highscore leser delte leaderboard-beregninger for lagrede profiler og viser fremdriften i datasettet i samme oversikt.',
     heroHighlights: [
-      'Podium og liste bruker samme rangeringsgrunnlag',
-      'Dekning i datasettet beregnes i én delt helper',
-      'Klar for senere profiler uten manuell oppdatering av siden',
+      'Podium for topp tre reisende',
+      'Deterministisk rangering med tydelig tie-break',
+      'Fremdriftsindikatorer og aktiv profil i samme oversikt',
     ],
   },
   {
