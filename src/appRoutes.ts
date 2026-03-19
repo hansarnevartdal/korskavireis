@@ -14,11 +14,11 @@ export const appRoutes: AppRoute[] = [
     heroEyebrow: 'Oppstart',
     heroTitle: 'Velg reisende og fortsett eventyret',
     heroDescription:
-      'Bootstrappen legger på plass skall, navigasjon og sidehierarki for den første versjonen av Reisekart.',
+      'Velg en eksisterende reisende eller opprett en ny profil som lagres lokalt i nettleseren på denne enheten.',
     heroHighlights: [
-      'Arkitektur for nettleseren med Vite og React',
-      'Klar for lokale profiler og landdata i neste iterasjon',
-      'Felles sideoppsett som alle visninger kan bygge videre på',
+      'Aktiv reisende huskes mellom økter i nettleseren',
+      'Førstegangsbruk får tydelige tomtilstander og validering',
+      'Valgt profil er klar til å sendes videre til Mitt kart',
     ],
   },
   {
@@ -27,10 +27,10 @@ export const appRoutes: AppRoute[] = [
     heroEyebrow: 'Kartoversikt',
     heroTitle: 'Grunnflate for personlig reisekart',
     heroDescription:
-      'Mitt kart bruker nå felles landmetadata, kontinentfiltre og statistikkhjelpere i stedet for side-lokale plassholdere.',
+      'Den aktive reisende bruker nå delt landmetadata, kontinentfiltre og statistikkhjelpere i kartoppsettet.',
     heroHighlights: [
-      'Statistikk beregnes fra samme visitedCountryCodes-datasett som resten av appen',
-      'Kontinentvalg kommer fra ett delt metadataregister',
+      'Personlig kontekst følger med fra Reisende-siden',
+      'Kontinentvalg og datadekning kommer fra det delte landregisteret',
       'Kartflaten viser et lokalt, gjenbrukbart verdenskart-asset',
     ],
   },

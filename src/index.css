@@ -59,6 +59,11 @@ input {
   font: inherit;
 }
 
+button {
+  border: 0;
+  background: none;
+}
+
 h1,
 h2,
 h3,
@@ -152,6 +157,23 @@ ol {
 
 .brand-subtitle {
   color: var(--text-muted);
+}
+
+.shell-status-card {
+  display: flex;
+  min-width: 240px;
+  flex: 1 1 240px;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 18px;
+  border: 1px solid rgba(117, 79, 166, 0.14);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.shell-status-name {
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .top-nav {
@@ -376,6 +398,57 @@ h2 {
   background: var(--surface-contrast);
 }
 
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 4px rgba(143, 79, 255, 0.22);
+  outline: none;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.58;
+}
+
+.button-primary {
+  color: var(--text-contrast);
+  background: var(--surface-contrast);
+  box-shadow: var(--shadow-soft);
+}
+
+.button-secondary {
+  border-color: rgba(143, 79, 255, 0.2);
+  background: rgba(255, 255, 255, 0.74);
+  color: var(--text);
+}
+
+.button-ghost {
+  border-color: rgba(143, 79, 255, 0.16);
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.58);
+}
+
 .pill-list {
   display: flex;
   flex-wrap: wrap;
@@ -439,6 +512,118 @@ h2 {
   background: rgba(44, 22, 63, 0.08);
 }
 
+.status-pill-active {
+  color: var(--text-contrast);
+  background: var(--surface-contrast);
+}
+
+.notice-card,
+.traveler-form,
+.field-group,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+}
+
+.notice-card {
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.notice-card-warning {
+  border-color: rgba(255, 104, 183, 0.18);
+  background:
+    linear-gradient(135deg, rgba(255, 104, 183, 0.12), rgba(143, 79, 255, 0.08)),
+    var(--card-gradient);
+}
+
+.notice-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.traveler-form,
+.field-group,
+.empty-state {
+  gap: 14px;
+}
+
+.field-label {
+  font-weight: 700;
+}
+
+.text-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(117, 79, 166, 0.18);
+  border-radius: 16px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.82);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.text-input:focus-visible {
+  border-color: rgba(143, 79, 255, 0.42);
+  box-shadow: 0 0 0 4px rgba(143, 79, 255, 0.12);
+  outline: none;
+}
+
+.form-message {
+  padding: 12px 14px;
+  border-radius: 16px;
+  font-weight: 600;
+}
+
+.form-message-error {
+  color: #8a2858;
+  background: rgba(255, 104, 183, 0.14);
+}
+
+.form-message-success {
+  color: #2f255d;
+  background: rgba(143, 79, 255, 0.12);
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.empty-state {
+  padding: 20px;
+  border: 1px dashed rgba(117, 79, 166, 0.22);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.52);
+}
+
+.traveler-option {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.traveler-option:hover,
+.traveler-option:focus-visible {
+  border-color: rgba(143, 79, 255, 0.24);
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.traveler-option-active {
+  border-color: rgba(143, 79, 255, 0.28);
+  background: rgba(143, 79, 255, 0.1);
+}
+
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -456,6 +641,11 @@ h2 {
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.05em;
+}
+
+.stat-value-text {
+  font-size: clamp(1.45rem, 2.2vw, 2.2rem);
+  line-height: 1.1;
 }
 
 .map-card {
@@ -569,9 +759,15 @@ h2 {
     align-items: flex-start;
   }
 
+  .shell-status-card,
+  .button {
+    width: 100%;
+  }
+
   .top-nav,
   .pill-list,
-  .list-row-meta {
+  .list-row-meta,
+  .form-actions {
     width: 100%;
   }
 
