@@ -27,11 +27,11 @@ export const appRoutes: AppRoute[] = [
     heroEyebrow: 'Kartoversikt',
     heroTitle: 'Grunnflate for personlig reisekart',
     heroDescription:
-      'Den aktive reisende styrer nå hvilket navn og hvilke lagrede besøksdata som vises i kartoppsettet.',
+      'Den aktive reisende bruker nå delt landmetadata, kontinentfiltre og statistikkhjelpere i kartoppsettet.',
     heroHighlights: [
       'Personlig kontekst følger med fra Reisende-siden',
-      'Statistikk er koblet til lagret profil i nettleseren',
-      'Kart- og landstyring kan bygges videre i neste issue',
+      'Kontinentvalg og datadekning kommer fra det delte landregisteret',
+      'Kartflaten viser et lokalt, gjenbrukbart verdenskart-asset',
     ],
   },
   {
@@ -40,11 +40,11 @@ export const appRoutes: AppRoute[] = [
     heroEyebrow: 'Sammenligning',
     heroTitle: 'Klar for sammenligning mellom reisende',
     heroDescription:
-      'Skallet er satt opp for å sammenligne profiler, delte statistikker og kartutsnitt med samme designsystem.',
+      'Utforsk-siden leser nå delte sammenligningsdata, rangeringer og dekning fra samme landdatasett som de andre visningene.',
     heroHighlights: [
-      'Gjenbrukbare sammenligningskort',
-      'Egen flate for visuell kartanalyse',
-      'Bygget for senere innhold basert på delt landdatasett',
+      'Sammenligningskort beregnes med delte hjelpeselektorer',
+      'Kartflaten gjenbruker samme lokale verdenskart-asset som Mitt kart',
+      'Differanser og overlapp kommer fra én felles datamodell',
     ],
   },
   {
@@ -53,11 +53,11 @@ export const appRoutes: AppRoute[] = [
     heroEyebrow: 'Rangering',
     heroTitle: 'Podium og rangering i samme oppsett',
     heroDescription:
-      'Highscore-siden er klargjort for å vise topp tre, rangerte profiler og fremdriftsindikatorer.',
+      'Highscore-siden er koblet til delte leaderboard-beregninger, slik at rangeringen kan gjenbrukes uten duplisert logikk.',
     heroHighlights: [
-      'Podium-seksjon med tydelig hierarki',
-      'Listeoppsett som passer for score og fremdrift',
-      'Samme kort- og fargelogikk som resten av appen',
+      'Podium og liste bruker samme rangeringsgrunnlag',
+      'Dekning i datasettet beregnes i én delt helper',
+      'Klar for senere profiler uten manuell oppdatering av siden',
     ],
   },
   {
@@ -66,11 +66,11 @@ export const appRoutes: AppRoute[] = [
     heroEyebrow: 'Neste tur',
     heroTitle: 'Forslagssiden har plass til forklarbare anbefalinger',
     heroDescription:
-      'Layouten for ferieforslag er klar for regler, regiongrupperinger og korte begrunnelser per turforslag.',
+      'Ferieforslag bygger nå på delte subregioner og manglende dekning i datasettet i stedet for faste, håndskrevne kort.',
     heroHighlights: [
-      'Kort som forklarer hvorfor et forslag matcher',
-      'Plass til region, land og dekning i samme kort',
-      'Enkel å utvide med heuristikker i senere arbeid',
+      'Anbefalinger henter region og land fra samme metadataregister',
+      'Begrunnelser bruker delte dekningstall per kontinent',
+      'Samme datalag kan utvides med flere regler senere',
     ],
   },
 ]

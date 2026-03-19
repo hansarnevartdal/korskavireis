@@ -1,17 +1,10 @@
-const podium = [
-  { place: '1', traveler: 'Hansa', countries: 47 },
-  { place: '2', traveler: 'Marius', countries: 28 },
-  { place: '3', traveler: 'Lea', countries: 19 },
-]
-
-const ranking = [
-  { traveler: 'Hansa', countries: 47, progress: '24% av verden' },
-  { traveler: 'Marius', countries: 28, progress: '14% av verden' },
-  { traveler: 'Lea', countries: 19, progress: '10% av verden' },
-  { traveler: 'Nora', countries: 12, progress: '6% av verden' },
-]
+import { demoTravelers } from '../features/countries/demoTravelers'
+import { rankTravelers } from '../features/countries/travelStats'
 
 export function HighscorePage() {
+  const ranking = rankTravelers(demoTravelers)
+  const podium = ranking.slice(0, 3)
+
   return (
     <section className="page-stack">
       <article className="card">
@@ -24,37 +17,39 @@ export function HighscorePage() {
 
         <div className="page-grid page-grid-three">
           {podium.map((entry) => (
-            <article key={entry.place} className="podium-card">
-              <span className="podium-rank">#{entry.place}</span>
-              <p className="podium-name">{entry.traveler}</p>
-              <p className="podium-score">{entry.countries} land</p>
+            <article key={entry.rank} className="podium-card">
+              <span className="podium-rank">#{entry.rank}</span>
+              <p className="podium-name">{entry.displayName}</p>
+              <p className="podium-score">{entry.visitedCountryCount} land</p>
             </article>
           ))}
         </div>
       </article>
 
       <article className="card">
-        <div className="card-header">
-          <div>
-            <p className="eyebrow">Rangering</p>
-            <h2>Listevisningen er klar for hele leaderboardet</h2>
+          <div className="card-header">
+            <div>
+              <p className="eyebrow">Rangering</p>
+              <h2>Listevisningen bruker nå samme rangeringsgrunnlag som podiumet</h2>
+            </div>
           </div>
-        </div>
 
-        <div className="list-stack">
-          {ranking.map((entry, index) => (
-            <article key={entry.traveler} className="list-row">
-              <div>
-                <p className="list-row-title">
-                  #{index + 1} {entry.traveler}
-                </p>
-                <p className="list-row-subtitle">{entry.progress}</p>
-              </div>
-              <span className="pill">{entry.countries} land</span>
-            </article>
-          ))}
-        </div>
-      </article>
+          <div className="list-stack">
+            {ranking.map((entry) => (
+              <article key={entry.id} className="list-row">
+                <div>
+                  <p className="list-row-title">
+                    #{entry.rank} {entry.displayName}
+                  </p>
+                  <p className="list-row-subtitle">
+                    {entry.datasetCoveragePercentage}% av datasettet · {entry.visitedContinentCount} kontinenter
+                  </p>
+                </div>
+                <span className="pill">{entry.visitedCountryCount} land</span>
+              </article>
+            ))}
+          </div>
+        </article>
     </section>
   )
 }

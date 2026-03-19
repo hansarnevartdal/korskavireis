@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
+import { WorldMapIllustration } from '../components/WorldMapIllustration'
+import { continentFilterOptions } from '../features/countries/countryData'
+import { getTravelerSummary } from '../features/countries/travelStats'
 import { useTravelers } from '../features/travelers/TravelerContext'
-
-const filters = ['Alle', 'Europa', 'Asia', 'Nord-Amerika', 'Sør-Amerika', 'Afrika', 'Oseania']
 
 const placeholderCountries = ['Norge', 'Sverige', 'Danmark', 'Tyskland', 'Italia', 'Japan']
 
@@ -26,8 +27,7 @@ export function MyMapPage() {
     )
   }
 
-  const visitedCountryCount = activeTraveler.visitedCountryCodes.length
-  const worldCoverage = Math.round((visitedCountryCount / 195) * 100)
+  const travelerSummary = getTravelerSummary(activeTraveler)
   const stats = [
     {
       label: 'Aktiv profil',
@@ -37,17 +37,19 @@ export function MyMapPage() {
     },
     {
       label: 'Besøkte land',
-      value: `${visitedCountryCount}`,
+      value: `${travelerSummary.visitedCountryCount}`,
       detail:
-        visitedCountryCount === 0
+        travelerSummary.visitedCountryCount === 0
           ? 'Ingen land er registrert ennå i denne profilen'
-          : 'Antallet er hentet fra lagret profil i nettleseren',
+          : travelerSummary.unsupportedCountryCodes.length === 0
+            ? 'Teller alle unike besøkskoder som er lagret på profilen'
+            : `Inkluderer ${travelerSummary.unsupportedCountryCodes.length} koder utenfor datasettet`,
       className: '',
     },
     {
-      label: 'Verdensandel',
-      value: `${worldCoverage}%`,
-      detail: 'Foreløpig beregnet mot 195 land for å vise frem datastrukturen',
+      label: 'Datadekning',
+      value: `${travelerSummary.datasetCoveragePercentage}%`,
+      detail: 'Viser hvor stor del av det delte landdatasettet profilen treffer',
       className: '',
     },
   ]
@@ -68,12 +70,12 @@ export function MyMapPage() {
         <div className="card-header">
           <div>
             <p className="eyebrow">Filtre</p>
-            <h2>Kontinentvalg, søk og listeplassholdere</h2>
+            <h2>Kontinentvalg kommer fra det delte metadataregisteret</h2>
           </div>
         </div>
 
         <div className="pill-list">
-          {filters.map((filter) => (
+          {continentFilterOptions.map((filter) => (
             <span key={filter} className="pill">
               {filter}
             </span>
@@ -86,15 +88,17 @@ export function MyMapPage() {
           <div className="card-header">
             <div>
               <p className="eyebrow">Kartflate</p>
-              <h2>{activeTraveler.displayName} har nå en personlig kartflate å bygge videre på</h2>
+              <h2>{activeTraveler.displayName} bruker nå et delt kartgrunnlag</h2>
             </div>
-            <span className="metric-chip">{visitedCountryCount} lagrede land</span>
+            <span className="metric-chip">{travelerSummary.visitedCountryCount} registrerte land</span>
           </div>
 
-          <div className="map-preview" aria-hidden="true">
-            <span className="map-shape map-shape-wide"></span>
-            <span className="map-shape map-shape-medium"></span>
-            <span className="map-shape map-shape-small"></span>
+          <div className="map-preview">
+            <WorldMapIllustration
+              activeContinents={travelerSummary.continentBreakdown
+                .filter((continent) => continent.visitedCount > 0)
+                .map((continent) => continent.continent)}
+            />
           </div>
         </article>
 
@@ -102,30 +106,38 @@ export function MyMapPage() {
           <div className="card-header">
             <div>
               <p className="eyebrow">Landliste</p>
-              <h2>Lagringsmodellen er klar for land som hukes av senere</h2>
+              <h2>Landlisten bruker samme navne- og regionsdata som resten av appen</h2>
             </div>
           </div>
 
-          {visitedCountryCount === 0 ? (
+          {travelerSummary.visitedCountries.length === 0 ? (
             <div className="empty-state">
-              <p className="list-row-title">Ingen land er lagret på {activeTraveler.displayName} ennå.</p>
+              <p className="list-row-title">Ingen land i det delte datasettet er koblet til {activeTraveler.displayName} ennå.</p>
               <p className="section-copy">
-                Denne profilen er klar til å motta besøkte land i neste iterasjon. Valget av reisende
-                og lagringsformat er allerede på plass.
+                Profilen kan fortsatt ha lagrede landkoder, men kartsiden viser foreløpig bare land som finnes
+                i den felles metadataoversikten.
               </p>
             </div>
           ) : (
             <div className="list-stack">
-              {activeTraveler.visitedCountryCodes.map((countryCode) => (
-                <article key={countryCode} className="list-row">
+              {travelerSummary.visitedCountries.map((country) => (
+                <article key={country.code} className="list-row">
                   <div>
-                    <p className="list-row-title">{countryCode.toUpperCase()}</p>
-                    <p className="list-row-subtitle">Lagret i profilens visitedCountryCodes-felt</p>
+                    <p className="list-row-title">{country.name}</p>
+                    <p className="list-row-subtitle">
+                      {country.subregion} · {country.code}
+                    </p>
                   </div>
                   <span className="pill">Besøkt</span>
                 </article>
               ))}
             </div>
+          )}
+
+          {travelerSummary.unsupportedCountryCodes.length > 0 && (
+            <p className="card-note">
+              Utenfor datasettet: {travelerSummary.unsupportedCountryCodes.join(', ')}.
+            </p>
           )}
         </article>
       </div>
