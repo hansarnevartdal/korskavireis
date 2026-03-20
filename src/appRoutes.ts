@@ -38,13 +38,13 @@ export const appRoutes: AppRoute[] = [
     path: '/utforsk',
     navLabel: 'Utforsk',
     heroEyebrow: 'Sammenligning',
-    heroTitle: 'Klar for sammenligning mellom reisende',
+    heroTitle: 'Bytt reisende og sammenlign fotavtrykket deres',
     heroDescription:
-      'Utforsk-siden leser nå delte sammenligningsdata, rangeringer og dekning fra samme landdatasett som de andre visningene.',
+      'Utforsk lar deg bytte mellom reisende, lese totalscore og dekning, og se overlapp og forskjeller fra samme delte landdatasett som resten av appen.',
     heroHighlights: [
-      'Sammenligningskort beregnes med delte hjelpeselektorer',
-      'Kartflaten gjenbruker samme lokale verdenskart-asset som Mitt kart',
-      'Differanser og overlapp kommer fra én felles datamodell',
+      'Tilgjengelig velger gjør det enkelt å skifte fokus mellom reisende',
+      'Kartflaten fremhever fotavtrykket til valgt profil på samme verdensgrunnlag',
+      'Overlapp og forskjeller kommer fra én felles datamodell',
     ],
   },
   {
