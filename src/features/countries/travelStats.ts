@@ -40,9 +40,14 @@ export type LeaderboardRow = TravelerSummary & {
 }
 
 export type TravelerComparison = {
+  comparedTravelerId: string
+  referenceTraveler: string
   comparedTraveler: string
   countryDelta: number
   sharedVisitedCount: number
+  referenceExclusiveCount: number
+  comparedExclusiveCount: number
+  sharedContinentCount: number
   narrative: string
 }
 
@@ -164,16 +169,35 @@ export function compareTravelers(reference: TravelerStatsInput, traveler: Travel
   const referenceSummary = getTravelerSummary(reference)
   const travelerSummary = getTravelerSummary(traveler)
   const referenceCodes = new Set(referenceSummary.visitedCountries.map((country) => country.code))
+  const travelerCodes = new Set(travelerSummary.visitedCountries.map((country) => country.code))
+  const referenceContinents = new Set(
+    referenceSummary.continentBreakdown
+      .filter((continent) => continent.visitedCount > 0)
+      .map((continent) => continent.continent),
+  )
+  const travelerContinents = travelerSummary.continentBreakdown.filter((continent) => continent.visitedCount > 0)
   const sharedVisitedCount = travelerSummary.visitedCountries.filter((country) => referenceCodes.has(country.code)).length
-  const countryDelta = referenceSummary.visitedCountryCount - travelerSummary.visitedCountryCount
+  const referenceExclusiveCount = referenceSummary.visitedCountries.filter((country) => !travelerCodes.has(country.code)).length
+  const comparedExclusiveCount = travelerSummary.visitedCountries.filter((country) => !referenceCodes.has(country.code)).length
+  const sharedContinentCount = travelerContinents.filter((continent) => referenceContinents.has(continent.continent)).length
+  const countryDelta = travelerSummary.visitedCountryCount - referenceSummary.visitedCountryCount
   const differenceLabel =
-    countryDelta === 0 ? 'samme antall land som' : countryDelta > 0 ? `${countryDelta} færre land enn` : `${Math.abs(countryDelta)} flere land enn`
+    countryDelta === 0
+      ? 'samme antall land som'
+      : countryDelta > 0
+        ? `${countryDelta} flere land enn`
+        : `${Math.abs(countryDelta)} færre land enn`
 
   return {
+    comparedTravelerId: traveler.id,
+    referenceTraveler: reference.displayName,
     comparedTraveler: traveler.displayName,
     countryDelta,
     sharedVisitedCount,
-    narrative: `${traveler.displayName} har ${differenceLabel} ${reference.displayName} og deler ${sharedVisitedCount} land i datasettet.`,
+    referenceExclusiveCount,
+    comparedExclusiveCount,
+    sharedContinentCount,
+    narrative: `${traveler.displayName} har ${differenceLabel} ${reference.displayName}, deler ${sharedVisitedCount} land og overlapper i ${sharedContinentCount} verdensdeler.`,
   }
 }
 

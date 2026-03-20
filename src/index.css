@@ -455,6 +455,54 @@ h2 {
   gap: 10px;
 }
 
+.comparison-tablist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.comparison-tab {
+  display: flex;
+  min-width: 180px;
+  flex: 1 1 180px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 16px 18px;
+  border: 1px solid rgba(143, 79, 255, 0.16);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.68);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.comparison-tab:hover,
+.comparison-tab:focus-visible {
+  border-color: rgba(143, 79, 255, 0.28);
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.comparison-tab-active {
+  border-color: rgba(143, 79, 255, 0.3);
+  background: rgba(143, 79, 255, 0.12);
+}
+
+.comparison-tab-title {
+  font-weight: 700;
+}
+
+.comparison-tab-subtitle {
+  color: var(--text-muted);
+}
+
 .pill {
   border: 1px solid rgba(143, 79, 255, 0.18);
   background: var(--accent-soft);
@@ -505,6 +553,25 @@ h2 {
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 10px;
+}
+
+.comparison-row {
+  align-items: stretch;
+}
+
+.comparison-row-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comparison-row-meta {
+  align-self: center;
+}
+
+.comparison-pill-list {
+  gap: 8px;
 }
 
 .row-state {
@@ -807,6 +874,7 @@ h2 {
   }
 
   .top-nav,
+  .comparison-tablist,
   .pill-list,
   .list-row-meta,
   .form-actions {
@@ -826,5 +894,13 @@ h2 {
 
   .list-row-meta {
     justify-content: flex-start;
+  }
+
+  .comparison-tab {
+    width: 100%;
+  }
+
+  .comparison-row-meta {
+    align-self: stretch;
   }
 }
